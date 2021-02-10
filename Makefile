@@ -13,3 +13,5 @@ publish:
 gendiff:
 	node bin/gendiff.js
 
+test:
+	npm test
