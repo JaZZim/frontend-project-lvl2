@@ -21,4 +21,10 @@ describe.each([0, 1])('Primitive structure. Case - %#', (index) => {
     const expected = expectedData.plain[index];
     expect(genDiff(path1, path2)).toBe(expected);
   });
+  test('YAML format', () => {
+    const path1 = getFilePath(`plain/case${index}.before.yml`);
+    const path2 = getFilePath(`plain/case${index}.after.yml`);
+    const expected = expectedData.plain[index];
+    expect(genDiff(path1, path2)).toBe(expected);
+  });
 });
