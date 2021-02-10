@@ -6,7 +6,7 @@ import sortBy from 'lodash/sortBy.js';
 function parseFile(pathToFile) {
   const currentPath = process.cwd();
   const fullPathToFile = path.resolve(currentPath, pathToFile);
-  const fileContent = fs.readFileSync(fullPathToFile, { encoding: 'utf-8' });
+  const fileContent = fs.readFileSync(fullPathToFile, 'utf-8');
   const objectFromJson = JSON.parse(fileContent);
   return objectFromJson;
 }
