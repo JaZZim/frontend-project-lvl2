@@ -1,15 +1,5 @@
-import fs from 'fs';
-import path from 'path';
-import process from 'process';
 import sortBy from 'lodash/sortBy.js';
-
-function parseFile(pathToFile) {
-  const currentPath = process.cwd();
-  const fullPathToFile = path.resolve(currentPath, pathToFile);
-  const fileContent = fs.readFileSync(fullPathToFile, 'utf-8');
-  const objectFromJson = JSON.parse(fileContent);
-  return objectFromJson;
-}
+import parseFile from './parsers.js';
 
 // function generateStringOfChange(key, value, level, change = 'unchanged') {
 //   const prefix = {
