@@ -4,6 +4,7 @@
   "description": "This is the second frontend project",
   "author": "Anton Nikulin",
   "type": "module",
+  "main": "src/index.js",
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
