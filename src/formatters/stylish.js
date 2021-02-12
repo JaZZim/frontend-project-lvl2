@@ -31,7 +31,7 @@ const toString = (node, currentLevel) => {
   return iter(node, currentLevel + 1, basicIndent);
 };
 
-export default function stylish(astTree) {
+export default function formatToStylish(astTree) {
   const iter = (node, level) => {
     const currentIndent = basicIndent.repeat(level);
     const bracketIndent = basicIndent.repeat(level - 1);
