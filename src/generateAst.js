@@ -1,13 +1,13 @@
-import { sortBy, isPlainObject, isEqual } from 'lodash';
+import _ from 'lodash';
 import has from './utils.js';
 
 export default function generateAst(objBefore, objAfter) {
   const mergerObject = { ...objBefore, ...objAfter };
-  const sortedAllKeys = sortBy(Object.keys(mergerObject));
+  const sortedAllKeys = _.sortBy(Object.keys(mergerObject));
   const result = sortedAllKeys.map((key) => {
     const valueBefore = objBefore[key];
     const valueAfter = objAfter[key];
-    if (isPlainObject(valueBefore) && isPlainObject(valueAfter)) {
+    if (_.isPlainObject(valueBefore) && _.isPlainObject(valueAfter)) {
       return {
         key, type: 'nested', children: generateAst(valueBefore, valueAfter),
       };
@@ -22,7 +22,7 @@ export default function generateAst(objBefore, objAfter) {
         key, type: 'removed', value: valueBefore,
       };
     }
-    if (!isEqual(valueBefore, valueAfter)) {
+    if (!_.isEqual(valueBefore, valueAfter)) {
       return {
         key, type: 'changed', value: { valueBefore, valueAfter },
       };

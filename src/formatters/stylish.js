@@ -1,4 +1,4 @@
-import { isPlainObject } from 'lodash';
+import _ from 'lodash';
 
 const basicIndent = '  ';
 
@@ -15,7 +15,7 @@ function getPrefix(type) {
 
 const toString = (node, currentLevel) => {
   const iter = (currentNode, level, replacer) => {
-    if (isPlainObject(currentNode)) {
+    if (_.isPlainObject(currentNode)) {
       const currentIndent = replacer.repeat(level + 2);
       const bracketIndent = replacer.repeat(level);
       const result = Object.entries(currentNode).map(([key, value]) => (
