@@ -1,52 +1,47 @@
 import _ from 'lodash';
 
-const basicIndent = '  ';
+const singleIndent = 4;
 
-function getPrefix(type) {
-  switch (type) {
-    case 'added':
-      return '+';
-    case 'removed':
-      return '-';
-    default:
-      return ' ';
-  }
+function getIndent(depth, type = 'unchanged') {
+  const countSpace = depth * singleIndent;
+  const prefix = {
+    added: '+ ',
+    removed: '- ',
+    unchanged: '',
+  };
+  return prefix[type].padStart(countSpace);
 }
 
-const toString = (node, currentLevel) => {
-  const iter = (currentNode, level, replacer) => {
-    if (_.isPlainObject(currentNode)) {
-      const currentIndent = replacer.repeat(level + 2);
-      const bracketIndent = replacer.repeat(level);
-      const result = Object.entries(currentNode).map(([key, value]) => (
-        `${currentIndent}${key}: ${toString(value, level + 1)}`
-      ));
-      return ['{', ...result, `${bracketIndent}}`].join('\n');
-    }
-    if (Array.isArray(node)) {
-      return `[${node.join(', ')}]`;
-    }
-    return node;
-  };
-  return iter(node, currentLevel + 1, basicIndent);
+const toString = (node, level) => {
+  if (_.isPlainObject(node)) {
+    const currentIndent = getIndent(level + 1);
+    const bracketIndent = getIndent(level);
+    const result = Object.entries(node).map(([key, value]) => (
+      `${currentIndent}${key}: ${toString(value, level + 1)}`
+    ));
+    return ['{', ...result, `${bracketIndent}}`].join('\n');
+  }
+  if (Array.isArray(node)) {
+    return `[${node.join(', ')}]`;
+  }
+  return node;
 };
 
 export default function formatToStylish(astTree) {
   const iter = (node, level) => {
-    const currentIndent = basicIndent.repeat(level);
-    const bracketIndent = basicIndent.repeat(level - 1);
+    const bracketIndent = getIndent(level - 1);
     const lines = node.flatMap((item) => {
-      const { key, type } = item;
+      const { key, type, value } = item;
       switch (type) {
         case 'nested':
-          return `${currentIndent}${getPrefix(type)} ${key}: ${iter(item.children, level + 2)}`;
+          return `${getIndent(level)}${key}: ${iter(item.children, level + 1)}`;
         case 'changed':
           return [
-            `${currentIndent}${getPrefix('removed')} ${key}: ${toString(item.value.valueBefore, level)}`,
-            `${currentIndent}${getPrefix('added')} ${key}: ${toString(item.value.valueAfter, level)}`,
+            `${getIndent(level, 'removed')}${key}: ${toString(value.valueBefore, level)}`,
+            `${getIndent(level, 'added')}${key}: ${toString(value.valueAfter, level)}`,
           ];
         default:
-          return `${currentIndent}${getPrefix(type)} ${key}: ${toString(item.value, level)}`;
+          return `${getIndent(level, type)}${key}: ${toString(value, level)}`;
       }
     });
     return [

@@ -2,9 +2,9 @@ import _ from 'lodash';
 import has from './utils.js';
 
 export default function generateAst(objBefore, objAfter) {
-  const mergerObject = { ...objBefore, ...objAfter };
-  const sortedAllKeys = _.sortBy(Object.keys(mergerObject));
-  const result = sortedAllKeys.map((key) => {
+  const uniqueKeys = Object.keys({ ...objBefore, ...objAfter });
+  const sortedKeys = _.sortBy(uniqueKeys);
+  const result = sortedKeys.map((key) => {
     const valueBefore = objBefore[key];
     const valueAfter = objAfter[key];
     if (_.isPlainObject(valueBefore) && _.isPlainObject(valueAfter)) {
