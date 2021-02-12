@@ -17,6 +17,7 @@ beforeAll(() => {
 describe.each([
   [0, 'stylish'],
   [1, 'plain'],
+  [2, 'json'],
 ])('Case - %i, %s formatter', (index, format) => {
   test('JSON format', () => {
     const path1 = getFilePath('case.before.json');
