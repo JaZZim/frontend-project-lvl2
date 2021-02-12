@@ -15,19 +15,19 @@ beforeAll(() => {
 });
 
 describe.each([
-  [0, 'Primitive'],
-  [1, 'Nested'],
-])('Case - %i, %s structure', (index) => {
+  [0, 'stylish'],
+  [1, 'plain'],
+])('Case - %i, %s formatter', (index, format) => {
   test('JSON format', () => {
-    const path1 = getFilePath(`case${index}.before.json`);
-    const path2 = getFilePath(`case${index}.after.json`);
+    const path1 = getFilePath('case.before.json');
+    const path2 = getFilePath('case.after.json');
     const expected = expectedData[index];
-    expect(genDiff(path1, path2)).toBe(expected);
+    expect(genDiff(path1, path2, format)).toBe(expected);
   });
   test('YAML format', () => {
-    const path1 = getFilePath(`case${index}.before.yml`);
-    const path2 = getFilePath(`case${index}.after.yml`);
+    const path1 = getFilePath('case.before.yml');
+    const path2 = getFilePath('case.after.yml');
     const expected = expectedData[index];
-    expect(genDiff(path1, path2)).toBe(expected);
+    expect(genDiff(path1, path2, format)).toBe(expected);
   });
 });
