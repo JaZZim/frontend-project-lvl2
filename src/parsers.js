@@ -4,14 +4,14 @@ import process from 'process';
 import yaml from 'js-yaml';
 
 function getParser(format) {
-  const map = {
-    '.json': JSON.parse,
-    '.yml': yaml.load,
-  };
-  if (!map[format]) {
-    throw new Error('The file format is not supported.');
+  switch (format) {
+    case 'json':
+      return JSON.parse;
+    case 'yaml':
+      return yaml.load;
+    default:
+      throw new Error('The file format is not supported.');
   }
-  return map[format];
 }
 
 export default function parseFile(pathToFile) {
