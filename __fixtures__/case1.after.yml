@@ -19,3 +19,5 @@ group3:
     id:
       number: 45
   fee: 100500
+group4: [1, 2, 3]
+group5: [5, "foo", 3]
