@@ -4,7 +4,7 @@ import has from './utils.js';
 export default function generateAst(objBefore, objAfter) {
   const uniqueKeys = Object.keys({ ...objBefore, ...objAfter });
   const sortedKeys = _.sortBy(uniqueKeys);
-  const result = sortedKeys.map((key) => {
+  return sortedKeys.map((key) => {
     const valueBefore = objBefore[key];
     const valueAfter = objAfter[key];
     if (_.isPlainObject(valueBefore) && _.isPlainObject(valueAfter)) {
@@ -31,5 +31,4 @@ export default function generateAst(objBefore, objAfter) {
       key, type: 'unchanged', value: valueBefore,
     };
   });
-  return result;
 }
