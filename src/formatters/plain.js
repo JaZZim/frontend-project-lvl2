@@ -22,14 +22,19 @@ export default function formatToPlain(astTree) {
         case 'removed':
           return [...acc, `Property '${pathString}' was removed`];
         case 'changed':
-          return [...acc, `Property '${pathString}' was updated. From ${toString(value.valueBefore)} to ${toString(value.valueAfter)}`];
+          return [
+            ...acc,
+            `Property '${pathString}' was updated. From ${toString(value.valueBefore)} to ${toString(value.valueAfter)}`,
+          ];
         case 'nested':
           return [...acc, iter(item.children, newPath)];
         default:
           return acc;
       }
     }, []);
-    return result.join('\n');
+    return result
+      .filter((str) => str !== '')
+      .join('\n');
   };
   return iter(astTree, []);
 }
