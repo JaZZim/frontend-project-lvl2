@@ -20,6 +20,5 @@ export default function parseFile(pathToFile) {
   const fullPathToFile = path.resolve(currentPath, pathToFile);
   const fileContent = fs.readFileSync(fullPathToFile, 'utf-8');
   const parse = getParser(fileFormat);
-  const resultObject = parse(fileContent);
-  return resultObject;
+  return parse(fileContent);
 }
