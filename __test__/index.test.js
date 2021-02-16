@@ -7,11 +7,11 @@ import genDiff from '../src/index.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const getFilePath = (filename) => path.join(__dirname, '../__fixtures__', filename);
 
-let expectedData = [];
+const expectedData = [];
 
 beforeAll(() => {
   const result = fs.readFileSync(getFilePath('result.txt'), 'utf-8');
-  expectedData = result.trim().split('\n\n\n');
+  expectedData.push(...result.trim().split('\n\n\n'));
 });
 
 describe.each([
