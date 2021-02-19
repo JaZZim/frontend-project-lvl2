@@ -5,6 +5,9 @@
   "author": "Anton Nikulin",
   "main": "index.js",
   "type": "module",
+  "engines": {
+    "node": ">=14"
+  },
   "jest": {
     "testEnvironment": "node",
     "transform": {}
