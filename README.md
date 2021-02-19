@@ -26,7 +26,7 @@ Options:
   -f, --format [type]  output format: stylish, plain, json (default: "stylish")
   -h, --help           display help for command
 ```
-## Exemple
+## Example
 ```bash
 #stylish format
 gendiff path/file.json another/path/file.yml
