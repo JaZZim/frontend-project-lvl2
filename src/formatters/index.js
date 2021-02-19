@@ -9,7 +9,7 @@ const formatters = {
   json,
 };
 
-export default function render(astTree, type) {
+export default function format(astTree, type) {
   if (!has(formatters, type)) {
     throw new Error('Unknown output format.');
   }
