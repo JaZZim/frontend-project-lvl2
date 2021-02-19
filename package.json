@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "This is the second frontend project",
+  "description": "Utility that defines difference between two data structures",
   "author": "Anton Nikulin",
   "main": "index.js",
   "type": "module",
