@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This is the second frontend project",
   "author": "Anton Nikulin",
-  "main": "src/index.js",
+  "main": "index.js",
   "type": "module",
   "jest": {
     "testEnvironment": "node",

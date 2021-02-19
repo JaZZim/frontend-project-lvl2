@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import cm from 'commander';
-import genDiff from '../src/index.js';
+import genDiff from '../index.js';
 
 const program = new cm.Command();
 
