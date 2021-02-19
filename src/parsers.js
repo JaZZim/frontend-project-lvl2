@@ -1,6 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-import process from 'process';
 import yaml from 'js-yaml';
 
 function getParser(format) {
@@ -14,11 +11,4 @@ function getParser(format) {
   }
 }
 
-export default function parseFile(pathToFile) {
-  const fileFormat = path.extname(pathToFile);
-  const currentPath = process.cwd();
-  const fullPathToFile = path.resolve(currentPath, pathToFile);
-  const fileContent = fs.readFileSync(fullPathToFile, 'utf-8');
-  const parse = getParser(fileFormat);
-  return parse(fileContent);
-}
+export default getParser;
