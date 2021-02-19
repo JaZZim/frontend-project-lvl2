@@ -1,30 +1,36 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import genDiff from '../src/index.js';
+import genDiff from '../index.js';
 
 // eslint-disable-next-line no-underscore-dangle
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const getFilePath = (filename) => path.join(__dirname, '../__fixtures__', filename);
 
-const result = fs.readFileSync(getFilePath('result.txt'), 'utf-8');
-const expectedData = result.trim().split('\n\n\n');
+const expectedData = {};
 
-describe.each([
-  [0, 'stylish'],
-  [1, 'plain'],
-  [2, 'json'],
-])('Case - %i, %s formatter', (index, format) => {
-  test('JSON format', () => {
-    const path1 = getFilePath('case.before.json');
-    const path2 = getFilePath('case.after.json');
-    const expected = expectedData[index];
-    expect(genDiff(path1, path2, format)).toBe(expected);
-  });
-  test('YAML format', () => {
-    const path1 = getFilePath('case.before.yml');
-    const path2 = getFilePath('case.after.yml');
-    const expected = expectedData[index];
-    expect(genDiff(path1, path2, format)).toBe(expected);
-  });
+beforeAll(() => {
+  const resultStylish = fs.readFileSync(getFilePath('result.stylish.txt'), 'utf-8');
+  const resultPlain = fs.readFileSync(getFilePath('result.plain.txt'), 'utf-8');
+  expectedData.stylish = resultStylish.trim();
+  expectedData.plain = resultPlain.trim();
+});
+
+test('Stylish formatter', () => {
+  const path1 = getFilePath('case.before.json');
+  const path2 = getFilePath('case.after.json');
+  const expected = expectedData.stylish;
+  expect(genDiff(path1, path2, 'stylish')).toBe(expected);
+});
+test('Plain formatter', () => {
+  const path1 = getFilePath('case.before.yml');
+  const path2 = getFilePath('case.after.yml');
+  const expected = expectedData.plain;
+  expect(genDiff(path1, path2, 'plain')).toBe(expected);
+});
+test('Json formatter', () => {
+  const path1 = getFilePath('case.before.yml');
+  const path2 = getFilePath('case.after.json');
+  const outputData = genDiff(path1, path2, 'json');
+  expect(() => JSON.parse(outputData)).not.toThrow();
 });
