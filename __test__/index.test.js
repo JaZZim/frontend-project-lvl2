@@ -7,14 +7,13 @@ import genDiff from '../index.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const getFilePath = (filename) => path.join(__dirname, '../__fixtures__', filename);
 
-const expectedData = {};
+const resultStylish = fs.readFileSync(getFilePath('result.stylish.txt'), 'utf-8');
+const resultPlain = fs.readFileSync(getFilePath('result.plain.txt'), 'utf-8');
 
-beforeAll(() => {
-  const resultStylish = fs.readFileSync(getFilePath('result.stylish.txt'), 'utf-8');
-  const resultPlain = fs.readFileSync(getFilePath('result.plain.txt'), 'utf-8');
-  expectedData.stylish = resultStylish.trim();
-  expectedData.plain = resultPlain.trim();
-});
+const expectedData = {
+  stylish: resultStylish.trim(),
+  plain: resultPlain.trim(),
+};
 
 test('Stylish formatter', () => {
   const path1 = getFilePath('case.before.json');
