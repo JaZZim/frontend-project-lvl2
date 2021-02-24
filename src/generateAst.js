@@ -1,33 +1,33 @@
 import _ from 'lodash';
 
-export default function generateAst(objBefore, objAfter) {
-  const uniqueKeys = Object.keys({ ...objBefore, ...objAfter });
+export default function generateAst(obj1, obj2) {
+  const uniqueKeys = Object.keys({ ...obj1, ...obj2 });
   const sortedKeys = _.sortBy(uniqueKeys);
   return sortedKeys.map((key) => {
-    const valueBefore = objBefore[key];
-    const valueAfter = objAfter[key];
-    if (_.isPlainObject(valueBefore) && _.isPlainObject(valueAfter)) {
+    const value1 = obj1[key];
+    const value2 = obj2[key];
+    if (_.isPlainObject(value1) && _.isPlainObject(value2)) {
       return {
-        key, type: 'nested', children: generateAst(valueBefore, valueAfter),
+        key, type: 'nested', children: generateAst(value1, value2),
       };
     }
-    if (!_.has(objBefore, key)) {
+    if (!_.has(obj1, key)) {
       return {
-        key, type: 'added', value: valueAfter,
+        key, type: 'added', value: value2,
       };
     }
-    if (!_.has(objAfter, key)) {
+    if (!_.has(obj2, key)) {
       return {
-        key, type: 'removed', value: valueBefore,
+        key, type: 'removed', value: value1,
       };
     }
-    if (!_.isEqual(valueBefore, valueAfter)) {
+    if (!_.isEqual(value1, value2)) {
       return {
-        key, type: 'changed', value: { valueBefore, valueAfter },
+        key, type: 'changed', value: { valueBefore: value1, valueAfter: value2 },
       };
     }
     return {
-      key, type: 'unchanged', value: valueBefore,
+      key, type: 'unchanged', value: value1,
     };
   });
 }
