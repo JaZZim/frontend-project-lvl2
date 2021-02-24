@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import has from './utils.js';
 
 export default function generateAst(objBefore, objAfter) {
   const uniqueKeys = Object.keys({ ...objBefore, ...objAfter });
@@ -12,12 +11,12 @@ export default function generateAst(objBefore, objAfter) {
         key, type: 'nested', children: generateAst(valueBefore, valueAfter),
       };
     }
-    if (!has(objBefore, key)) {
+    if (!_.has(objBefore, key)) {
       return {
         key, type: 'added', value: valueAfter,
       };
     }
-    if (!has(objAfter, key)) {
+    if (!_.has(objAfter, key)) {
       return {
         key, type: 'removed', value: valueBefore,
       };

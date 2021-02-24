@@ -1,4 +1,4 @@
-import has from '../utils.js';
+import _ from 'lodash';
 import stylish from './stylish.js';
 import plain from './plain.js';
 import json from './json.js';
@@ -10,7 +10,7 @@ const formatters = {
 };
 
 export default function format(astTree, type) {
-  if (!has(formatters, type)) {
+  if (!_.has(formatters, type)) {
     throw new Error('Unknown output format.');
   }
   return formatters[type](astTree);
