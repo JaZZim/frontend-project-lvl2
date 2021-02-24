@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import process from 'process';
 import generateAst from './generateAst.js';
-import getParser from './parsers.js';
+import parse from './parsers.js';
 import format from './formatters/index.js';
 
 function parseFile(pathToFile) {
@@ -10,8 +10,7 @@ function parseFile(pathToFile) {
   const currentPath = process.cwd();
   const fullPathToFile = path.resolve(currentPath, pathToFile);
   const fileContent = fs.readFileSync(fullPathToFile, 'utf-8');
-  const parse = getParser(fileFormat);
-  return parse(fileContent);
+  return parse(fileFormat, fileContent);
 }
 
 export default function genDiff(pathFile1, pathFile2, outputFormat = 'stylish') {
