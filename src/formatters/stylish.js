@@ -1,16 +1,13 @@
 import _ from 'lodash';
 
 const singleIndent = 4;
+const prefixSize = 2;
 
-function getIndent(depth, prefixSize) {
-  const countSpace = depth * singleIndent - prefixSize;
-  return ' '.repeat(countSpace);
-}
-
-const toString = (node, level) => {
+function toString(node, level) {
   if (_.isPlainObject(node)) {
-    const currentIndent = getIndent(level + 1, 0);
-    const bracketIndent = getIndent(level, 0);
+    const indentSize = singleIndent * level;
+    const currentIndent = ' '.repeat(indentSize);
+    const bracketIndent = ' '.repeat(indentSize - singleIndent);
     const result = Object.entries(node).map(([key, value]) => (
       `${currentIndent}${key}: ${toString(value, level + 1)}`
     ));
@@ -20,29 +17,32 @@ const toString = (node, level) => {
     return `[${node.join(', ')}]`;
   }
   return node;
-};
+}
 
-export default function formatToStylish(astTree) {
+function formatToStylish(astTree) {
   const iter = (node, level) => {
-    const bracketIndent = getIndent(level - 1, 0);
+    const indentSize = singleIndent * level - prefixSize;
+    const currentIndent = ' '.repeat(indentSize);
+    const bracketIndent = ' '.repeat(indentSize - prefixSize);
+    const nextLevel = level + 1;
     const lines = node.flatMap((line) => {
       const { key, type, value } = line;
       switch (type) {
         case 'nested':
-          return `${getIndent(level, 0)}${key}: ${iter(line.children, level + 1)}`;
+          return `${currentIndent}  ${key}: ${iter(line.children, nextLevel)}`;
         case 'changed':
           return [
-            `${getIndent(level, 2)}- ${key}: ${toString(value.valueBefore, level)}`,
-            `${getIndent(level, 2)}+ ${key}: ${toString(value.valueAfter, level)}`,
+            `${currentIndent}- ${key}: ${toString(value.value1, nextLevel)}`,
+            `${currentIndent}+ ${key}: ${toString(value.value2, nextLevel)}`,
           ];
         case 'added':
-          return `${getIndent(level, 2)}+ ${key}: ${toString(value, level)}`;
+          return `${currentIndent}+ ${key}: ${toString(value, nextLevel)}`;
         case 'removed':
-          return `${getIndent(level, 2)}- ${key}: ${toString(value, level)}`;
+          return `${currentIndent}- ${key}: ${toString(value, nextLevel)}`;
         case 'unchanged':
-          return `${getIndent(level, 0)}${key}: ${toString(value, level)}`;
+          return `${currentIndent}  ${key}: ${toString(value, nextLevel)}`;
         default:
-          throw new Error('In AST tree the type of change is incorrect');
+          throw new Error(`Stylish formatter: '${type}' - unknown format of changes`);
       }
     });
     return [
@@ -53,3 +53,5 @@ export default function formatToStylish(astTree) {
   };
   return iter(astTree, 1);
 }
+
+export default formatToStylish;
