@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 function toString(data) {
-  if (_.isObject(data) || Array.isArray(data)) {
+  if (_.isObject(data)) {
     return '[complex value]';
   }
   if (typeof data === 'string') {
