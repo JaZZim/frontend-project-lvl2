@@ -11,7 +11,7 @@ const formatters = {
 
 export default function format(astTree, type) {
   if (!_.has(formatters, type)) {
-    throw new Error('Unknown output format.');
+    throw new Error(`Unknown output format: '${type}'`);
   }
   return formatters[type](astTree);
 }
