@@ -6,7 +6,7 @@ import parse from './parsers.js';
 import format from './formatters/index.js';
 
 function parseFile(pathToFile) {
-  const fileFormat = path.extname(pathToFile);
+  const fileFormat = path.extname(pathToFile).slice(1);
   const currentPath = process.cwd();
   const fullPathToFile = path.resolve(currentPath, pathToFile);
   const fileContent = fs.readFileSync(fullPathToFile, 'utf-8');

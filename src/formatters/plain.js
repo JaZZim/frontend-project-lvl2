@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 function toString(data) {
-  if (_.isPlainObject(data) || Array.isArray(data)) {
+  if (_.isObject(data) || Array.isArray(data)) {
     return '[complex value]';
   }
   if (typeof data === 'string') {
@@ -23,14 +23,14 @@ export default function formatToPlain(astTree) {
       case 'changed':
         return [
           ...acc,
-          `Property '${pathString}' was updated. From ${toString(value.valueBefore)} to ${toString(value.valueAfter)}`,
+          `Property '${pathString}' was updated. From ${toString(value.value1)} to ${toString(value.value2)}`,
         ];
       case 'nested':
         return [...acc, ...iter(item.children, newPath)];
       case 'unchanged':
         return acc;
       default:
-        throw new Error('In AST tree the type of change is incorrect');
+        throw new Error(`Plain formatter: '${type}' - unknown format of changes`);
     }
   }, []);
   return iter(astTree, []).join('\n');

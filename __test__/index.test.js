@@ -3,9 +3,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import genDiff from '../index.js';
 
-// eslint-disable-next-line no-underscore-dangle
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const getFilePath = (filename) => path.join(__dirname, '../__fixtures__', filename);
+const getFilePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 const resultStylish = fs.readFileSync(getFilePath('result.stylish.txt'), 'utf-8');
 const resultPlain = fs.readFileSync(getFilePath('result.plain.txt'), 'utf-8');

@@ -2,12 +2,12 @@ import yaml from 'js-yaml';
 
 function parse(format, data) {
   switch (format) {
-    case '.json':
+    case 'json':
       return JSON.parse(data);
-    case '.yml':
+    case 'yml':
       return yaml.load(data);
     default:
-      throw new Error('The file format is not supported.');
+      throw new Error(`'${format}' - file format is not supported`);
   }
 }
 

@@ -6,11 +6,6 @@ export default function generateAst(obj1, obj2) {
   return sortedKeys.map((key) => {
     const value1 = obj1[key];
     const value2 = obj2[key];
-    if (_.isPlainObject(value1) && _.isPlainObject(value2)) {
-      return {
-        key, type: 'nested', children: generateAst(value1, value2),
-      };
-    }
     if (!_.has(obj1, key)) {
       return {
         key, type: 'added', value: value2,
@@ -21,9 +16,14 @@ export default function generateAst(obj1, obj2) {
         key, type: 'removed', value: value1,
       };
     }
+    if (_.isPlainObject(value1) && _.isPlainObject(value2)) {
+      return {
+        key, type: 'nested', children: generateAst(value1, value2),
+      };
+    }
     if (!_.isEqual(value1, value2)) {
       return {
-        key, type: 'changed', value: { valueBefore: value1, valueAfter: value2 },
+        key, type: 'changed', value: { value1, value2 },
       };
     }
     return {
